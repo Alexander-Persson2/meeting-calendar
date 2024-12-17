@@ -1,0 +1,33 @@
+/* Calendar Styling */
+.react-calendar {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    width: 100%;
+    max-width: 400px;
+    background-color: #fff;
+    padding: 10px;
+  }
+  
+  .react-calendar__tile {
+    padding: 8px;
+    font-size: 14px;
+  }
+  
+  .react-calendar__tile:enabled:hover {
+    background-color: #007bff;
+    color: #fff;
+  }
+  
+  .react-calendar__tile--active {
+    background-color: #0056b3;
+    color: #fff;
+  }
+  
+  /* Highlight class for days with meetings */
+  .meeting-day {
+    background-color: #ffeb3b !important; /* Highlight color for meeting days */
+    color: #333 !important;
+    border-radius: 50%;
+    font-weight: bold;
+  }
+  

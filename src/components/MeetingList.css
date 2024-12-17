@@ -1,0 +1,47 @@
+.meeting-list table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.meeting-list th, .meeting-list td {
+  padding: 12px;
+  border: 1px solid #ddd;
+  text-align: center;
+}
+
+.meeting-list th {
+  background-color: #f4f4f4;
+  font-weight: bold;
+}
+
+.meeting-list tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.edit-btn, .delete-btn {
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  margin: 0 5px;
+  font-size: 14px;
+  border-radius: 4px;
+}
+
+.edit-btn {
+  background-color: #ffc107;
+  color: #fff;
+}
+
+.edit-btn:hover {
+  background-color: #e0a800;
+}
+
+.delete-btn {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}

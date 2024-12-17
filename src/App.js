@@ -1,24 +1,34 @@
-import logo from './logo.svg';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
+import ScheduleMeetingForm from './components/ScheduleMeetingForm';
+import MeetingList from './components/MeetingList';
 import './App.css';
 
 function App() {
+  const [meetings, setMeetings] = useState([]);
+
+  const addMeeting = (meeting) => {
+    setMeetings([...meetings, meeting]);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route
+          path="/"
+          element={<Dashboard meetings={meetings} addMeeting={addMeeting} />}
+        />
+        <Route
+          path="/schedule-meeting"
+          element={<ScheduleMeetingForm addMeeting={addMeeting} />}
+        />
+        <Route
+          path="/manage-meetings"
+          element={<MeetingList meetings={meetings} />}
+        />
+      </Routes>
+    </Router>
   );
 }
 
