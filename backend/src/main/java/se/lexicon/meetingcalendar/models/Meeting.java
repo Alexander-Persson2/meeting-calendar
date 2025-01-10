@@ -27,6 +27,10 @@ public class Meeting {
 
     private String participants; // Store emails or names as a comma-separated string (e.g., "john@example.com,alice@example.com")
 
+    public Long getId() {
+        return this.id;
+    }
+
     public String getTitle() {
         return this.title;
     }
@@ -58,6 +62,8 @@ public class Meeting {
     public void setParticipants(String participants) {
         this.participants = participants;
     }
+
+
 
 
 

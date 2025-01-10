@@ -12,6 +12,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/meetings")
+@CrossOrigin(origins = "http://localhost:3000")
 public class MeetingController {
 
     private final MeetingService meetingService;
@@ -24,7 +25,8 @@ public class MeetingController {
     // ✅ 1. Create a new Meeting
     @PostMapping
     public ResponseEntity<Meeting> createMeeting(@RequestBody Meeting meeting) {
-        return ResponseEntity.ok(meetingService.createMeeting(meeting));
+        Meeting savedMeeting = meetingService.createMeeting(meeting);
+        return ResponseEntity.ok(savedMeeting);
     }
 
     // ✅ 2. Get all Meetings

@@ -1,25 +1,30 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import './ScheduleMeetingForm.css';
+import React from "react";
+import { useForm } from "react-hook-form";
+import axios from "axios";
+import "./ScheduleMeetingForm.css";
+
+const API_URL = "http://localhost:8080/api/meetings";
 
 const ScheduleMeetingForm = ({ addMeeting }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
-  // Helper function to convert dd/mm/yyyy to yyyy-mm-dd
-  const convertDateToISO = (ddmmyyyy) => {
-    const [day, month, year] = ddmmyyyy.split('/');
-    return `${year}-${month}-${day}`;
-  };
+  const onSubmit = async (data) => {
+    // Ensure the dateTime is correctly formatted before sending
+    const formattedData = {
+        ...data,
+        dateTime: new Date(data.dateTime).toISOString(), // ✅ Convert dateTime to ISO format
+    };
 
-  const onSubmit = (data) => {
-    // Convert the date from dd/mm/yyyy to yyyy-mm-dd
-    const convertedDate = convertDateToISO(data.date);
-    
-    // Create a new meeting object with the converted date
-    const meetingWithConvertedDate = { ...data, date: convertedDate };
-    
-    // Add the meeting to the state via addMeeting
-    addMeeting(meetingWithConvertedDate);
+    console.log("🔵 Submitting Formatted Data:", formattedData); // Debugging
+
+    try {
+        const response = await axios.post(API_URL, formattedData);
+        console.log("🟢 Meeting Created Successfully:", response.data); // Debugging
+        addMeeting(response.data);
+        reset(); // ✅ Clear the form after submission
+    } catch (error) {
+        console.error("🔴 Error creating meeting", error);
+    }
   };
 
   return (
@@ -28,50 +33,25 @@ const ScheduleMeetingForm = ({ addMeeting }) => {
         <label>Meeting Title</label>
         <input
           type="text"
-          placeholder="Enter meeting title"
-          {...register('title', { required: 'Title is required' })}
+          {...register("title", { required: "Title is required" })}
         />
         {errors.title && <p className="error">{errors.title.message}</p>}
       </div>
 
-      <div className="form-row">
-        <div className="form-group half">
-          <label>Meeting Date</label>
-          <input
-            type="text"
-            placeholder="dd/mm/yyyy"
-            {...register('date', { required: 'Date is required' })}
-          />
-          {errors.date && <p className="error">{errors.date.message}</p>}
-        </div>
-        <div className="form-group half">
-          <label>Meeting Time</label>
-          <input
-            type="text"
-            placeholder="--:--"
-            {...register('time', { required: 'Time is required' })}
-          />
-          {errors.time && <p className="error">{errors.time.message}</p>}
-        </div>
-      </div>
-
       <div className="form-group">
-        <label>Meeting Level</label>
-        <select {...register('level', { required: 'Meeting level is required' })}>
-          <option value="">Choose level</option>
-          <option value="Team">Team</option>
-          <option value="Department">Department</option>
-          <option value="Company">Company</option>
-        </select>
-        {errors.level && <p className="error">{errors.level.message}</p>}
+        <label>Meeting Date & Time</label>
+        <input
+          type="datetime-local"
+          {...register("dateTime", { required: "Date and time are required" })}
+        />
+        {errors.dateTime && <p className="error">{errors.dateTime.message}</p>}
       </div>
 
       <div className="form-group">
         <label>Participants</label>
         <input
           type="text"
-          placeholder="Enter participant emails"
-          {...register('participants', { required: 'Participants are required' })}
+          {...register("participants", { required: "Participants are required" })}
         />
         {errors.participants && <p className="error">{errors.participants.message}</p>}
       </div>
@@ -79,8 +59,7 @@ const ScheduleMeetingForm = ({ addMeeting }) => {
       <div className="form-group">
         <label>Description</label>
         <textarea
-          placeholder="Enter meeting description"
-          {...register('description', { required: 'Description is required' })}
+          {...register("description", { required: "Description is required" })}
         />
         {errors.description && <p className="error">{errors.description.message}</p>}
       </div>

@@ -53,6 +53,13 @@ public class MeetingServiceImpl implements MeetingService {
 
     @Override
     public void deleteMeeting(Long id) {
-        meetingRepository.deleteById(id);
+        try {
+            System.out.println("Attempting to delete meeting with ID: " + id);  // Log the ID before deletion
+            meetingRepository.deleteById(id);
+            System.out.println("Meeting with ID: " + id + " deleted successfully!");  // Confirm successful deletion
+        } catch (Exception e) {
+            System.out.println("Error deleting meeting with ID: " + id);  // Log errors
+        }
     }
+
 }
